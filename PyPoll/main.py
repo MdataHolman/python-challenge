@@ -1,77 +1,91 @@
 # Importing modules important for the analysis
 import os
 import csv
-# Set relative path for csv file
-data_path=os.path.join(',', 'Resources', 'election_data.csv')
 
-# A list to hold the names of candidates
-candidates = []
+#To set the path for csv file
+election_data = os.path.join('.', 'Resources', 'election_data.csv')
 
-# A list to hold the number of votes each candidate receives
-num_votes = []
+# To set names of candidates
+candidates_name = []
 
-# A list to hold the percentage of total votes each candidates
+# To set number of votes each candidate receives
+number_votes = []
+
+# To set the percentage of total votes each candidates
 percent_votes = []
 
-# A counter for the total number of votes
+# To set the total number of votes
 total_votes = 0
 
-# Read csv file
-with open(data_path, newline="") as csvfile:
-    csvreader = csv.reader(csvfile, delimiter=",")
-    # Reading header row
+# To open and read the csv file
+with open(election_data, newline="") as electionfile:
+    csvreader = csv.reader(electionfile, delimiter=",")
     csv_header = next(csvreader)
 
+    #To loop through the row
     for row in csvreader:
-        # Add to our vote-counter
+        # To add vote-counter
         total_votes += 1
-        if row[2] not in candidates:
-            candidates.append(row[2])
-            index = candidates.index(row[2])
-            num_votes.append(1)
+        # To count the votes per candidate name per row
+        if row[2] not in candidates_name:
+            candidates_name.append(row[2])
+            index = candidates_name.index(row[2])
+            number_votes.append(1)
         else:
-            index = candidates.index(row[2])
-            num_votes[index] += 1
-    # Add to percent_votes list
-    for votes in num_votes:
+            index = candidates_name.index(row[2])
+            number_votes[index] += 1
+    # To get percent_votes list
+    for votes in number_votes:
         percentage = (votes/total_votes) * 100
-        percentage = round(percentage)
-        percentage = "%.3f%%" % percentage
+        percentage = "%0.3f%%" % percentage
         percent_votes.append(percentage)
 
-    # Find the winning candidate
-    winner = max(num_votes)
-    index = num_votes.index(winner)
-    winning_candidate = candidates[index]
+    # To get the greatest number of votes(winner) and candidate name
+    winner = max(number_votes)
+    index = number_votes.index(winner)
+    winning_candidate = candidates_name[index]
 
-# printing the output
+# To print the output
 print("Election Results")
+print('\n')
 print("--------------------------")
+print('\n')
 print(f"Total Votes: {str(total_votes)}")
+print('\n')
 print("--------------------------")
-for i in range(len(candidates)):
-    print(f"{candidates[i]}: {str(percent_votes[i])} ({str(num_votes[i])})")
+print('\n')
+for c in range(len(candidates_name)):
+    print(f"{candidates_name[c]}: {str(percent_votes[c])} ({str(number_votes[c])})")
+    print('\n')
 print("--------------------------")
-print(f"Winner: {winning_candidate}")
+print('\n')
+print(f"Winner: {winning_candidate}" + "!")
+print('\n')
 print("--------------------------")
 
-# Exporting to text file
+# To export to text file to analysis folder
 
+output_file = os.path.join('analysis', 'pyPoll_output.txt')
 
-output_file = os.path.join('Analysis', 'pyPoll_output.txt')
-
-pyPolloutput = open(output_file, "w")
+pyPoll_output = open(output_file, "w")
 
 line1 = "Election Results"
 line2 = "--------------------------"
-line3 = str(f"Total Votes: {str(total_votes)}")
-line4 = str("--------------------------")
-pyPolloutput.write('{}\n{}\n{}\n{}\n'.format(line1, line2, line3, line4))
-for i in range(len(candidates)):
+line3 = " "
+line4 = str(f"Total Votes: {str(total_votes)}")
+line5 = " "
+line6 = str("--------------------------")
+line7 = " "
+pyPoll_output.write('{}\n{}\n{}\n{}\n{}\n{}\n{}\n'.format(line1, line2, line3, line4, line5, line6, line7))
+for c in range(len(candidates_name)):
     line = str(
-        f"{candidates[i]}: {str(percent_votes[i])} ({str(num_votes[i])})")
-    pyPolloutput.write('{}\n'.format(line))
-line5 = "--------------------------"
-line6 = str(f"Winner: {winning_candidate}")
-line7 = "--------------------------"
-pyPolloutput.write('{}\n{}\n{}\n'.format(line5, line6, line7))
+        f"{candidates_name[c]}: {str(percent_votes[c])} ({str(number_votes[c])})")
+    pyPoll_output.write('{}\n'.format(line))
+line8 = "--------------------------"
+line9 = " "
+line10 = str(f"Winner: {winning_candidate}" + "!")
+line11 = " "
+line12 = "--------------------------"
+line13 = "end poll"
+pyPoll_output.write('{}\n{}\n{}\n{}\n{}\n{}\n'.format(line8, line9, line10, line11, line12, line13))
+pyPoll_output.close()
