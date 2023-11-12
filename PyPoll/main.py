@@ -26,6 +26,8 @@ with open(election_data, newline="") as electionfile:
     for row in csvreader:
         # To add vote-counter
         total_votes += 1
+        #print(total_votes) - tested the count here 
+
         # To count the votes per candidate name per row
         if row[2] not in candidates_name:
             candidates_name.append(row[2])
@@ -39,11 +41,15 @@ with open(election_data, newline="") as electionfile:
         percentage = (votes/total_votes) * 100
         percentage = "%0.3f%%" % percentage
         percent_votes.append(percentage)
+        #print(percent_votes)
 
     # To get the greatest number of votes(winner) and candidate name
     winner = max(number_votes)
+        #print(winner)
     index = number_votes.index(winner)
+        #print(index)
     winning_candidate = candidates_name[index]
+        #print(winning_candidate)
 
 # To print the output
 print("Election Results")
@@ -63,9 +69,12 @@ print(f"Winner: {winning_candidate}" + "!")
 print('\n')
 print("--------------------------")
 
+
+
+
 # To export to text file to analysis folder
 
-output_file = os.path.join('analysis', 'pyPoll_output.txt')
+output_file = os.path.join('.', 'analysis', 'pyPoll_output.txt')
 
 pyPoll_output = open(output_file, "w")
 
