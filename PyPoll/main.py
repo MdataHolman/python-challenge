@@ -68,7 +68,7 @@ print('\n')
 print(f"Winner: {winning_candidate}" + "!")
 print('\n')
 print("--------------------------")
-
+print("end poll")
 
 
 
